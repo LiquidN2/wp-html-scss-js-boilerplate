@@ -1,3 +1,4 @@
+/* eslint-disable import/no-commonjs,no-undef,import/no-nodejs-modules */
 const path = require('path');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
@@ -18,7 +19,7 @@ module.exports = merge(common, {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/index.html'),
-      inject: true,
+      inject: 'head',
       scriptLoading: 'defer',
     }),
   ],
@@ -34,7 +35,7 @@ module.exports = merge(common, {
 
       // Load CSS, SASS, SCSS
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.s?css$/i,
         use: [
           // Creates `style` nodes from JS strings
           'style-loader',

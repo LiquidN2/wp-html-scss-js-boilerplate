@@ -1,3 +1,4 @@
+/* eslint-disable import/no-commonjs,no-undef,import/no-nodejs-modules */
 const path = require('path');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
@@ -7,12 +8,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = merge(common, {
   mode: 'production',
 
+  devtool: 'source-map',
+
   plugins: [
     new MiniCssExtractPlugin({ filename: 'style.css' }),
 
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'src/index.html'),
-      inject: true,
+      inject: 'head',
       scriptLoading: 'defer',
     }),
   ],
@@ -28,7 +31,7 @@ module.exports = merge(common, {
 
       // Load CSS, SASS, SCSS
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.s?css$/i,
         use: [
           // Extract CSS from JS
           MiniCssExtractPlugin.loader,
